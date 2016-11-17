@@ -1,0 +1,87 @@
+<?php
+
+?>
+<html>
+	<head>
+		<title>Seja bem-vindo ao Reclame!</title>
+		<script type="text/javascript" src="dependencies/jQuery/jquery-2.1.4.js"></script>
+		<link rel="stylesheet" href="dependencies/bootstrap/css/normalize.css">
+  		<link rel="stylesheet" href="dependencies/bootstrap/css/bootstrap.css">
+	</head>
+	<body>
+		<table border="5">
+			<tr>
+				<th colspan="2">
+					III - Resolução da Reclamação
+					(A preencher pela diretoria ou farmacêutico responsável)
+				</th>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<label for="ReclaAceita">Causas apuradas da reclamação :</label><br>
+					<div class="form-group">
+						<input type="radio" class="form-control" name="ReclaAceita" id="ReclaAceita"> Aceita<br>
+						<input type="radio" class="form-control" name="ReclaAceita" id="ReclaAceita"> Não Aceita
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<label for="ReclaAceita">Correções :</label><br>
+					<div class="form-group">
+						<input type="radio" class="form-control" name="ReclaAceita" id="ReclaAceita"> Aceita<br>
+						<input type="radio" class="form-control" name="ReclaAceita" id="ReclaAceita"> Não Aceita
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="dataCorrec">Data prevista de correção :</label><br>
+					<div class="form-group">
+						<input type="date" class="form-control" id="dataCorrec">
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<label for="Respons">Responsável :</label><br><input type="text" class="form-control" id="Respons">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="dataConcl">Data de conclusão :</label><br>
+					<div class="form-group">
+						<input type="date" class="form-control" id="dataConcl">
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<label for="NomeConcl">Concluído por :</label><br><input type="text" class="form-control" id="NomeConcl">
+					</div>
+				</td>
+			</tr>
+		</table><table border="5">
+				<tr>
+					<th colspan="2">
+						II - Análise da reclamação
+						(A preencher pela diretoria ou farmacêutico responsável)
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<label for="ReclaAceita">Reclamação :</label><br>
+						<div class="form-group">
+							<input type="radio" class="form-control" name="ReclaAceita" id="ReclaAceita"> Aceita<br>
+							<input type="radio" class="form-control" name="ReclaAceita" id="ReclaAceita"> Não Aceita
+						</div>
+					</td>
+					<td>
+						<div class="form-group">
+							<label for="ReclaAceita">Motivo da não aceitação :</label><br><input type="text" class="form-control" id="MotivoNAceita">
+						</div>
+					</td>
+				</tr>
+			</table>
+	</div>
+	</body>
+</html>

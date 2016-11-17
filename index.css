@@ -1,0 +1,14 @@
+.content > :not(#minhaNav) {
+    position: relative;
+    top: 30px;
+  }
+
+.table-center {
+	left: 75%;
+	
+	border-radius: 15px 15px 15px 15px;
+}
+
+.table-max {
+	max-height: 80%;
+}
