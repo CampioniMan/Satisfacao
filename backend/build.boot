@@ -9,7 +9,7 @@
                      [enlive "1.1.6"]
                      [clj-http "3.2.0"]
                      [org.clojure/data.json "0.2.6"]
-                     
+                     [http-kit "2.2.0"]
                      [org.clojure/java.jdbc "0.7.0-alpha1"]
                      [org.xerial/sqlite-jdbc "3.15.1"]])
 
@@ -21,7 +21,8 @@
     :init-ns 'user
     :dependencies (conj (get-env :dependencies) '[org.clojure/tools.namespace "0.2.10"]
                                                 '[org.clojure/test.check "0.9.0"])
-    :source-paths #(into % ["dev"])) 
+    ;; :source-paths #(into % ["dev"])
+    ) 
   identity)
 
 (deftask build

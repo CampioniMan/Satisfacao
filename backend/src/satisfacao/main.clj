@@ -5,7 +5,8 @@
    [org.httpkit.server :refer [run-server]])) ; httpkit is a server
  
  (defroutes app
-   (GET "/" [] "Hello World"))
+   (GET "/" [] "API SATISFACAO")
+   (GET "/Atendimento" [] "API SATISFACAO"))
  
  (defn -main []
    (run-server app {:port 5000}))

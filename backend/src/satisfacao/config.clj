@@ -3,7 +3,7 @@
    [clojure.java.jdbc :as j]))
 
 (def db-path
-  "../../database.db")
+  "database.db")
 
 (def sqltdb
   {:classname "org.sqlite.JDBC"

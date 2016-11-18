@@ -10,18 +10,17 @@
 (s/def ::Tipo int?)
 (s/def ::Nome (s/and string? not-empty))
 (s/def ::Mensagem ::Nome)
-(s/def ::Data (s/and string? #(re-matches data-reg %)))
+(s/def ::Data (s/and string? #(re-matches date-reg %)))
 
 
-(s/def ::atendimento (s/keys :req [::Tipo ::Nome ::Mensagem ::Data]))
+(s/def ::atendimento (s/keys :req-up [::Tipo ::Nome ::Mensagem ::Data]))
 
 (s/fdef registrar-atendimento
- :args (s/cat :atendimento ::atendimento))
+        :args ::atendimento)
 
 (defn registrar-atendimento
-  "Registra o atendimento[map] no bd"
+  "Registra o map args no bd"
   [atendimento]
   (j/insert! sqltdb
-   "Atendimento"
-   atendimento))
-
+             "Atendimento"
+             atendimento))
