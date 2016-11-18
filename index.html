@@ -1,94 +1,11 @@
 <?php
-	if (isset($login))
-	{
 
-	}
 ?>
 <html>
 	<head>
 		<title>Seja bem-vindo ao Reclame!</title>
-		<script type="text/javascript" src="dependencies/jQuery/jquery-2.1.4.js"></script>
-		<link rel="stylesheet" href="dependencies/bootstrap/css/normalize.css">
-  		<link rel="stylesheet" href="dependencies/bootstrap/css/bootstrap.css">
-  		<link rel="stylesheet" href="index.css">
 	</head>
 	<body>
-		<p>
-		Deseja reclamar? 
-	</p>
-
-
-		<style >
-		.labelNormal{
-			font-weight: normal;
-		}
-		</style>
-		<div id="content" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="minhaNav">
-			<nav class="navbar navbar-inverse navbar-fixed-top">
-			  	<div class="container-fluid">
-			    	<div class="navbar-header">
-			      		<a class="navbar-brand" href="#">Reclame!</a>
-			    	</div>
-		    		<ul class="nav navbar-nav">
-					    <li class="active"><a href="#">Home</a></li>
-					    <!--<li><a href="#"><span class="glyphicon glyphicon-user"></span> Registrar</a></li>
-		        		<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Entrar</a></li> -->
-		    		</ul>
-		  		</div>
-			</nav>
-			<p>Nº da Reclamacao:</p>
-			<table class="table table-center table-max" cellspacing="5" cellpadding="3">
-				<tr>
-					<th colspan="2">
-						I - Identificação e Registro da Reclamação
-						(A preencher pelo receptor da reclamação ou cliente)
-					</th>
-				</tr>
-				<tr>
-					<td >
-						<label for="NomeCliente">Cliente :</label><input type="text" class="form-control" id="NomeCliente" readonly>
-						<label for="NumCliente">Nº do Cliente :</label><input type="text" class="form-control" id="NumCliente" readonly>
-						<label for="TelCliente">Telefone/email :</label><input type="text" class="form-control" id="TelCliente" readonly>
-					</td>
-					<td>
-						<label for="dataRecla">Data da reclamação :</label><input type="text" value=<?php echo date('d/m/Y'); ?> class="form-control" id="dataRecla" readonly>
-						<label for="NomeAtend">Nome do receptor da reclamação :</label><input type="text" class="form-control" id="NomeAtend">
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-							<label for="TipoRecla">Tipo de reclamação :</label><br>
-							<div class="form-group">
-								<input type="checkbox" value="1" class="form-control" id="TipoRecla"> Atendimento<br>
-								<input type="checkbox" value="2" class="form-control" id="TipoRecla"> Prazo de reparação<br>
-								<input type="checkbox" value="3" class="form-control" id="TipoRecla"> Avaria<br>
-								<input type="checkbox" value="4" class="form-control" id="TipoRecla"> Logística<br>
-								<input type="checkbox" value="5" class="form-control" id="TipoRecla"> Outros<br>
-								<input type="text" class="form-control" id="TipoOutros">
-							</div>
-						</div>
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-							<label for="TipoRegis">Registrada via :</label><br><div class="form-group">
-							<label for="TipoRegis" class="control-label labelNormal">Telefone</label>
-								<input type="checkbox" class="form-control" id="TipoRegis"><br>
-							<label for="TipoRegis" class="control-label labelNormal">Presencial</label>
-								<input type="checkbox" class="form-control" id="TipoRegis"> <br>
-							<label for="TipoRegis" class="control-label labelNormal">Escrito</label>
-								<input type="checkbox" class="form-control" id="TipoRegis"> <br>
-							<label for="TipoRegis" class="control-label labelNormal">E-mail</label>
-								<input type="checkbox" class="form-control" id="TipoRegis"> 
-							</div>
-						</div>
-					</td>
-					<td>
-						<label>Descrição da reclamação :</label>
-						<div class="form-group">
-							<textarea id="DescRecla" rows="8" style="resize: vertical;" cols="30"></textarea>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
+		Deseja reclamar? clique <a href="cadastro.php">aqui</a>
 	</body>
 </html>
