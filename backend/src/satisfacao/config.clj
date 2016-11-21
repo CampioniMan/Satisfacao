@@ -10,11 +10,13 @@
    :subprotocol "sqlite"
    :subname db-path})
 
-(def Atendimento
-  [:ID :Tipo :IDUsuario :Mensagem :Data])
 
-(def TipoAtendimento
-  [:ID :Label])
 
-(def Usuario
-  [:Nome :ID])
+(def tabelas {:Atendimento
+              #{:ID :Tipo :IDUsuario :Mensagem :Data}
+
+              :TipoAtendimento
+              #{:ID :Label}
+
+              :Usuario
+              #{:Nome :ID}})
