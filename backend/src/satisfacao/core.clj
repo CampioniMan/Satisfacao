@@ -29,21 +29,20 @@
 
 (defn deletar!
   "Deleta row de acordo com o parâmetro de seleção"
-  [where-vector
-   tabela]
+  [tabela where-vector]
   (j/delete! sqltdb
              tabela
              where-vector))
 
 (defn selecionar!
   "Seleciona linha(s) da tabela com base no parâmetro de seleção"
-  [where-vector
-   tabela]
-  (let [strings (take-nth 2 where-vector)
-        values (take-nth 2 (rest where-vector))
-        s-string (str "SELECT * FROM `" tabela "` WHERE"
-                      (reduce #(str %1 " " (get %2 0))
-                              ""
-                              strings))] 
-    (j/execute! sqltdb
-                (concat [s-string] values))))
+  ([tabela
+    where-vector] 
+   (let [s-string (str "SELECT * FROM `" tabela "` WHERE "
+                       (get where-vector 0))
+         values (rest where-vector)]
+     (j/query sqltdb
+              (into [s-string] values))))
+  ([tabela]
+   (j/query sqltdb
+            [(str "SELECT * FROM `" tabela "`")])))
