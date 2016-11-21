@@ -9,17 +9,16 @@
 
 (s/def ::Tabela (s/and string? not-every?))
 (s/def ::Row s/map-spec)
+(s/def ::Where-Vector (s/tuple string? #(not (nil? %))))
 
 (s/fdef inserir!
         :args (s/cat :tabela ::Tabela
                      :row ::Row))
 
-(s/def ::Where-Vector (s/* (s/cat :select string?
-                                  :value #(not (nil? %)))))
-
 (s/fdef deletar!
         :args (s/cat :tabela ::Tabela
                      :where-vector ::Where-Vector))
+
 (defn inserir!
   "Registra o map args no bd"
   [tabela row]
@@ -46,3 +45,12 @@
   ([tabela]
    (j/query sqltdb
             [(str "SELECT * FROM `" tabela "`")])))
+
+(defn update!
+  [tabela
+   set-map
+   where-selector]
+  (j/update! sqltdb
+             tabela
+             set-map
+             where-selector))
