@@ -15,12 +15,18 @@
     (@server :timeout 100)
     (reset! server nil)))
 
+(defn restart-server []
+  (do
+    (stop-server)
+    (-main)))
+
 (defn handle-get
   [tabela args] 
   (when (core/tem-tabela? tabela)
     
     (if (empty? args)
-      (core/selecionar! tabela)
+      (json/write-str
+       (core/selecionar! tabela))
       (let [where-vector [(reduce-kv (fn [acc k v] 
                                        (str acc " "
                                             (.substring (str k) 1) "=" v))
