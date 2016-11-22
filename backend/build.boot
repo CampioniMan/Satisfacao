@@ -1,17 +1,17 @@
 (require 'boot.repl)
 
 (set-env!
-  :source-paths #{"src"}
-  :target #{"target"}
-  :dependencies    '[[org.clojure/clojure "1.9.0-alpha12"]
-                     [compojure "1.5.1"]
-                     [ring "1.5.0"]
-                     [enlive "1.1.6"]
-                     [clj-http "3.2.0"]
-                     [org.clojure/data.json "0.2.6"]
-                     [http-kit "2.2.0"]
-                     [org.clojure/java.jdbc "0.7.0-alpha1"]
-                     [org.xerial/sqlite-jdbc "3.15.1"]])
+ :source-paths #{"src"}
+ :target #{"target"}
+ :dependencies    '[[org.clojure/clojure "1.9.0-alpha12"]
+                    [compojure "1.5.1"]
+                    [ring "1.5.0"]
+                    [enlive "1.1.6"]
+                    [clj-http "3.4.1"]                    
+                    [org.clojure/data.json "0.2.6"]
+                    [http-kit "2.2.0"]
+                    [org.clojure/java.jdbc "0.7.0-alpha1"]
+                    [org.xerial/sqlite-jdbc "3.15.1"]])
 
 (deftask dev
   "Profile setup for development."

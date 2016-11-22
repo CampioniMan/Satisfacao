@@ -66,3 +66,9 @@
              tabela
              set-map
              where-selector))
+
+
+(defn tem-tabela?
+  [tabela]
+  (contains? tabelas
+             (keyword tabela)))
