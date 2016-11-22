@@ -8,6 +8,7 @@
 (def sqltdb
   {:classname "org.sqlite.JDBC"
    :subprotocol "sqlite"
+   :character-encoding "UTF-8"
    :subname db-path})
 
 
