@@ -31,7 +31,7 @@
   (when (core/tem-tabela? tabela)
     
     (if (empty? args)
-      (json/write-str
+      (generate-string
        (core/selecionar! tabela))
       (let [where-vector (gen-where-vector args)]
         (generate-string
