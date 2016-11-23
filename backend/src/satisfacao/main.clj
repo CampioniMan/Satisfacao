@@ -2,23 +2,13 @@
   (:require
    [satisfacao.core :as core]
    [compojure.core :refer :all]
-   [org.httpkit.server :as srvr]
-   [clojure.data.json :as json]
+   [org.httpkit.server :as srvr] 
    [clj-http.client :as client]
    [clojure.walk :refer [keywordize-keys]]
-   [ring.util.codec :refer [form-decode]])) ; httpkit is a server
+   [ring.util.codec :refer [form-decode]]
+   [cheshire.core :refer :all])) ; httpkit is a server
 
 (defonce server (atom nil))
-
-(defn stop-server []
-  (when-not (nil? @server)
-    (@server :timeout 100)
-    (reset! server nil)))
-
-(defn restart-server []
-  (do
-    (stop-server)
-    (-main)))
 
 (defn handle-get
   [tabela args] 
@@ -27,12 +17,20 @@
     (if (empty? args)
       (json/write-str
        (core/selecionar! tabela))
-      (let [where-vector [(reduce-kv (fn [acc k v] 
-                                       (str acc " "
-                                            (.substring (str k) 1) "=" v))
-                                     ""
-                                     args)]]
-        (json/write-str
+      (let [where-vector-fn (fn [[where-string & values] k v] 
+                              (let [values (conj values v)
+                                    where-string (->>
+                                                  (->
+                                                   (str k)
+                                                   (.substring 1)
+                                                   (str " = ? "))
+                                                  (.concat where-string))]
+                                (concat [where-string] values))) 
+            where-vector (into [] (reduce-kv
+                                   where-vector-fn
+                                   [""]
+                                   args))]
+        (generate-string
          (core/selecionar! tabela where-vector))))))
 
 (defroutes app
@@ -46,3 +44,12 @@
 (defn -main []
   (reset! server (srvr/run-server app {:port 5000})))
 
+(defn stop-server! []
+  (when-not (nil? @server)
+    (@server :timeout 100)
+    (reset! server nil)))
+
+(defn restart-server! []
+  (do
+    (stop-server!)
+    (-main)))

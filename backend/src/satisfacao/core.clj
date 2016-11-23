@@ -43,7 +43,8 @@
   [tabela where-vector]
   (j/delete! sqltdb
              tabela
-             where-vector))
+             where-vector
+             {:identifiers identity}))
 
 (defn selecionar!
   "Seleciona linha(s) da tabela com base no parâmetro de seleção"
@@ -53,10 +54,12 @@
                        (get where-vector 0))
          values (rest where-vector)]
      (j/query sqltdb
-              (into [s-string] values))))
+              (into [s-string] values)
+              {:identifiers identity})))
   ([tabela]
    (j/query sqltdb
-            [(str "SELECT * FROM `" tabela "`")])))
+            [(str "SELECT * FROM `" tabela "`")]
+            {:identifiers identity})))
 
 (defn update!
   [tabela
@@ -65,7 +68,8 @@
   (j/update! sqltdb
              tabela
              set-map
-             where-selector))
+             where-selector
+             {:identifiers identity}))
 
 
 (defn tem-tabela?
