@@ -10,6 +10,22 @@
 
 (defonce server (atom nil))
 
+(defn gen-where-vector
+  [map]
+  (let [where-vector-fn
+        (fn [[where-string & values] k v] 
+          (let [values (conj (into [] values) v)
+                where-string (->>
+                              (->
+                               (str " AND " (.substring (str k) 1)) 
+                               (str " = ?"))
+                              (.concat where-string))]
+            (concat [where-string] values)))] 
+    (into [] (#break reduce-kv
+              where-vector-fn
+              ["1=1"]
+              map))))
+
 (defn handle-get
   [tabela args] 
   (when (core/tem-tabela? tabela)
@@ -17,19 +33,7 @@
     (if (empty? args)
       (json/write-str
        (core/selecionar! tabela))
-      (let [where-vector-fn (fn [[where-string & values] k v] 
-                              (let [values (conj values v)
-                                    where-string (->>
-                                                  (->
-                                                   (str k)
-                                                   (.substring 1)
-                                                   (str " = ? "))
-                                                  (.concat where-string))]
-                                (concat [where-string] values))) 
-            where-vector (into [] (reduce-kv
-                                   where-vector-fn
-                                   [""]
-                                   args))]
+      (let [where-vector (gen-where-vector args)]
         (generate-string
          (core/selecionar! tabela where-vector))))))
 
@@ -38,7 +42,7 @@
   (GET "/:tabela/:args" [tabela args]  
        (handle-get tabela (keywordize-keys
                            (form-decode args))))
-  (GET "/:tabela" [tabela]  
+  (GET "/:tabela" [tabela]
        (handle-get tabela [])))
 
 (defn -main []
