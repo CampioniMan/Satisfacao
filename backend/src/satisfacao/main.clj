@@ -17,33 +17,65 @@
           (let [values (conj (into [] values) v)
                 where-string (->>
                               (->
-                               (str " AND " (.substring (str k) 1)) 
+                               (str " AND " k) 
                                (str " = ?"))
                               (.concat where-string))]
             (concat [where-string] values)))] 
-    (into [] (#break reduce-kv
+    (into [] (reduce-kv
               where-vector-fn
               ["1=1"]
               map))))
 
 (defn handle-get
-  [tabela args] 
-  (when (core/tem-tabela? tabela)
-    
+  ([tabela args] 
+   (->>
     (if (empty? args)
-      (generate-string
-       (core/selecionar! tabela))
+      (core/selecionar! tabela)
       (let [where-vector (gen-where-vector args)]
-        (generate-string
-         (core/selecionar! tabela where-vector))))))
+        (core/selecionar! tabela where-vector)))
+    (generate-string)))
+  ([tabela]
+   (generate-string (core/selecionar! tabela))))
 
-(defroutes app
+(defn handle-put
+  [tabela args]
+  (if (core/inserir! tabela args)
+    (->>
+     (handle-get tabela args))
+    "[]"))
+
+(defn handle-delete
+  [tabela args]
+  (let [where-vector (gen-where-vector args)]
+    (if-let [ret (core/selecionar! tabela where-vector)]
+      (do (core/deletar! tabela where-vector)
+          (generate-string ret))
+      "[]")))
+
+
+(defn map-url-params
+  [s]
+  (form-decode s))
+
+(defroutes app-routes
   (GET "/" [] "API SATISFACAO")
+  
   (GET "/:tabela/:args" [tabela args]  
-       (handle-get tabela (keywordize-keys
-                           (form-decode args))))
+    (handle-get tabela (map-url-params args)))
+  
   (GET "/:tabela" [tabela]
-       (handle-get tabela [])))
+    (handle-get tabela {}))
+  
+  (PUT "/:tabela/:args" [tabela args]
+    (handle-put tabela (map-url-params args)))
+  
+  (DELETE "/:tabela/:args" [tabela args]
+    (handle-delete tabela (map-url-params args))))
+
+
+(def app
+  (-> app-routes))
+
 
 (defn -main []
   (reset! server (srvr/run-server app {:port 5000})))

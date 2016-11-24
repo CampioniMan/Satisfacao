@@ -13,11 +13,27 @@
 
 
 
-(def tabelas {:Atendimento
-              #{:ID :Tipo :IDUsuario :Mensagem :Data}
+(def tabelas {"Atendimento"
+              #{"ID" "Tipo" "IDUsuario" "Mensagem" "Data"}
 
-              :TipoAtendimento
-              #{:ID :Label}
+              "TipoAtendimento"
+              #{"ID" "Label"}
 
-              :Usuario
-              #{:Nome :ID}})
+              "Usuario"
+              #{"Nome" "ID"}})
+
+(def action-table-keys {"Atendimento"
+                        {:insert #{"Tipo" "IDUsuario" "Mensagem" "Data"}
+                         :delete :all
+                         :select :all
+                         :update #{"Tipo" "IDUsuario" "Mensagem" "Data"}}
+                        "TipoAtendimento"
+                        {:insert #{"Label"}
+                         :delete :all
+                         :select :all
+                         :update #{"Label"}}
+                        "Usuario"
+                        {:insert #{"Nome"}
+                         :delete :all
+                         :select :all
+                         :update #{"Nome"}}})

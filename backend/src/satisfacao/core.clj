@@ -31,12 +31,24 @@
                      :set-map s/map-spec
                      :where-vector ::Where-Vector))
 
+(defn tem-tabela?
+  [tabela]
+  (contains? tabelas tabela))
+
+(defn filter-row
+  [tabela action row]
+  (select-keys
+   row
+   (get-in action-table-keys
+           [tabela action])))
+
 (defn inserir!
   "Registra o map args no bd"
   [tabela row]
-  (j/insert! sqltdb
-             tabela
-             row))
+  (when-let [row (filter-row tabela :insert row)]
+    (j/insert! sqltdb
+               tabela
+               row)))
 
 (defn deletar!
   "Deleta row de acordo com o parâmetro de seleção"
@@ -50,29 +62,26 @@
   "Seleciona linha(s) da tabela com base no parâmetro de seleção"
   ([tabela
     where-vector] 
-   (let [s-string (str "SELECT * FROM `" tabela "` WHERE "
-                       (get where-vector 0))
-         values (rest where-vector)]
-     (j/query sqltdb
-              (into [s-string] values)
-              {:identifiers identity})))
+   (when (tem-tabela? tabela)
+     (let [s-string (str "SELECT * FROM `" tabela "` WHERE "
+                         (get where-vector 0))
+           values (rest where-vector)]
+       (j/query sqltdb
+                (into [s-string] values)
+                {:identifiers identity}))))
   ([tabela]
-   (j/query sqltdb
-            [(str "SELECT * FROM `" tabela "`")]
-            {:identifiers identity})))
+   (when (tem-tabela? tabela)
+     (j/query sqltdb
+              [(str "SELECT * FROM `" tabela "`")]
+              {:identifiers identity}))))
 
 (defn update!
   [tabela
    set-map
    where-selector]
-  (j/update! sqltdb
-             tabela
-             set-map
-             where-selector
-             {:identifiers identity}))
-
-
-(defn tem-tabela?
-  [tabela]
-  (contains? tabelas
-             (keyword tabela)))
+  (when-let [set-map (filter-row tabela :update set-map)]
+    (j/update! sqltdb
+               tabela
+               set-map
+               where-selector
+               {:identifiers identity})))
