@@ -6,7 +6,8 @@
    [clj-http.client :as client]
    [clojure.walk :refer [keywordize-keys]]
    [ring.util.codec :refer [form-decode]]
-   [cheshire.core :refer :all])) ; httpkit is a server
+   [cheshire.core :refer :all])
+  (:gen-class)) ; httpkit is a server
 
 (defonce server (atom nil))
 
@@ -61,16 +62,16 @@
   (GET "/" [] "API SATISFACAO")
   
   (GET "/:tabela/:args" [tabela args]  
-    (handle-get tabela (map-url-params args)))
+       (handle-get tabela (map-url-params args)))
   
   (GET "/:tabela" [tabela]
-    (handle-get tabela {}))
+       (handle-get tabela {}))
   
   (PUT "/:tabela/:args" [tabela args]
-    (handle-put tabela (map-url-params args)))
+       (handle-put tabela (map-url-params args)))
   
   (DELETE "/:tabela/:args" [tabela args]
-    (handle-delete tabela (map-url-params args))))
+          (handle-delete tabela (map-url-params args))))
 
 
 (def app
