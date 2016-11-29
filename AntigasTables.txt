@@ -1,0 +1,242 @@
+<table class="table" cellspacing="5" cellpadding="3">
+			<tr>
+				<th colspan="2">
+					I - Identificação e Registro da Reclamação
+					(A preencher pelo receptor da reclamação ou cliente)
+				</th>
+			</tr>
+			<tr>
+				<td >
+					<label for="NomeCliente">Cliente :</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+						<input type="text" class="form-control" id="NomeCliente">
+					</div>
+					<label for="NumCliente">Senha :</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+						<input type="password" class="form-control" id="SenhaCliente">
+					</div>
+				</td>
+				<td>
+					<label for="dataRecla">Data da reclamação :</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+						<input type="date" class="form-control" id="dataRecla" data-onload="atualizarData();" readonly>
+					</div>
+					<label for="NomeAtend">Nome do receptor da reclamação :</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-font"></i></span>
+						<input type="text" class="form-control" id="NomeAtend">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+						<label for="TipoRecla">Tipo de reclamação :</label><br>
+							<div class="[ form-group ]">
+					            <input type="checkbox" name="cbx" id="cbx" autocomplete="off" style="visibility: hidden;">
+					            <div class="[ btn-group ]">
+					                <label for="cbx" class="[ btn btn-primary ]">
+					                    <span class="[  ]" id="Scbx"></span>
+					                    <span>&nbsp;</span>
+					                </label>
+					                <label for="cbx" class="[ btn btn-default ]"  id="Tcbx">
+					                    Atendimento
+					                </label>
+					            </div>
+					        </div>
+					        <div class="[ form-group ]">
+					            <input type="checkbox" name="cbx2" id="cbx2" autocomplete="off" style="visibility: hidden;">
+					            <div class="[ btn-group ]">
+					                <label for="cbx2" class="[ btn btn-primary ]">
+					                    <span class="[  ]" id="Scbx2"></span>
+					                    <span>&nbsp;</span>
+					                </label>
+					                <label for="cbx2" class="[ btn btn-default ]" id="Tcbx2">
+					                    Prazo de reparação
+					                </label>
+					            </div>
+					        </div>
+					        <div class="[ form-group ]">
+					            <input type="checkbox" name="cbx3" id="cbx3" autocomplete="off" style="visibility: hidden;">
+					            <div class="[ btn-group ]">
+					                <label for="cbx3" class="[ btn btn-primary ]">
+					                    <span class="[  ]" id="Scbx3"></span>
+					                    <span>&nbsp;</span>
+					                </label>
+					                <label for="cbx3" class="[ btn btn-default ]" id="Tcbx3">
+					                    Avaria
+					                </label>
+					            </div>
+					        </div>
+					        <div class="[ form-group ]">
+					            <input type="checkbox" name="cbx4" id="cbx4" autocomplete="off" style="visibility: hidden;">
+					            <div class="[ btn-group ]">
+					                <label for="cbx4" class="[ btn btn-primary ]">
+					                    <span class="[  ]" id="Scbx4"></span>
+					                    <span>&nbsp;</span>
+					                </label>
+					                <label for="cbx4" class="[ btn btn-default ]" id="Tcbx4">
+					                    Logística
+					                </label>
+					            </div>
+					        </div>
+					        <div class="[ form-group ]">
+					            <input type="checkbox" name="cbx5" id="cbx5" autocomplete="off" style="visibility: hidden;">
+					            <div class="[ btn-group ]">
+					                <label for="cbx5" class="[ btn btn-primary ]">
+					                    <span class="[  ]" id="Scbx5"></span>
+					                    <span>&nbsp;</span>
+					                </label>
+					                <label for="cbx5" class="[ btn btn-default ]" id="Tcbx5">
+					                    Outros
+					                </label>
+					            </div>
+					            <div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-text-width"></i></span>
+									<input type="text" class="form-control" id="TipoOutros" maxlength="35" readonly>
+								</div>
+					        </div>
+					
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+						<label for="TipoRegis">Registrada via :</label><br>
+						<div class="[ form-group ]">
+				            <input type="checkbox" name="cbxRegistro1" id="cbxRegistro1" autocomplete="off" style="visibility: hidden;">
+				            <div class="[ btn-group ]">
+				                <label for="cbxRegistro1" class="[ btn btn-primary ]">
+				                    <span class="[  ]" id="ScbxRegistro1"></span>
+				                    <span>&nbsp;</span>
+				                </label>
+				                <label for="cbxRegistro1" class="[ btn btn-default ]" id="TcbxRegistro1">
+				                    Telefone
+				                </label>
+				            </div>
+				        </div>
+				        <div class="[ form-group ]">
+				            <input type="checkbox" name="cbxRegistro2" id="cbxRegistro2" autocomplete="off" style="visibility: hidden;">
+				            <div class="[ btn-group ]">
+				                <label for="cbxRegistro2" class="[ btn btn-primary ]">
+				                    <span class="[  ]" id="ScbxRegistro2"></span>
+				                    <span>&nbsp;</span>
+				                </label>
+				                <label for="cbxRegistro2" class="[ btn btn-default ]" id="TcbxRegistro2">
+				                    Presencial
+				                </label>
+				            </div>
+				        </div>
+				        <div class="[ form-group ]">
+				            <input type="checkbox" name="cbxRegistro3" id="cbxRegistro3" autocomplete="off" style="visibility: hidden;">
+				            <div class="[ btn-group ]">
+				                <label for="cbxRegistro3" class="[ btn btn-primary ]">
+				                    <span class="[  ]" id="ScbxRegistro3"></span>
+				                    <span>&nbsp;</span>
+				                </label>
+				                <label for="cbxRegistro3" class="[ btn btn-default ]" id="TcbxRegistro3">
+				                    Escrito
+				                </label>
+				            </div>
+				        </div>
+				        <div class="[ form-group ]">
+				            <input type="checkbox" name="cbxRegistro4" id="cbxRegistro4" autocomplete="off" style="visibility: hidden;">
+				            <div class="[ btn-group ]">
+				                <label for="cbxRegistro4" class="[ btn btn-primary ]">
+				                    <span class="[  ]" id="ScbxRegistro4"></span>
+				                    <span>&nbsp;</span>
+				                </label>
+				                <label for="cbxRegistro4" class="[ btn btn-default ]" id="TcbxRegistro4">
+				                    E-mail
+				                </label>
+				            </div>
+				        </div>
+					</div>
+				</td>
+				<td>
+					<label>Descrição da reclamação :</label>
+					<div class="form-group">
+						<textarea id="DescRecla" rows="8" style="resize: vertical;" cols="30"></textarea>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th colspan="2">
+					II - Análise da reclamação
+					(A preencher pela diretoria ou farmacêutico responsável)
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<label for="ReclaAceita" class="control-label input-group">Reclamação :</label><br>
+			        <div class="btn-group" data-toggle="buttons">
+					  	<label class="btn btn-primary active">
+					    	<input type="radio" name="ReclaAceita" id="option1" autocomplete="off" class="active"> Aceita
+					  	</label>
+					  	<label class="btn btn-primary">
+					    	<input type="radio" name="ReclaAceita" id="option2" autocomplete="off"> Não Aceita
+					  	</label>
+					</div>
+					
+				</td>
+				<td>
+					<div class="form-group">
+						<label for="ReclaAceita">Motivo da não aceitação :</label><br><input type="text" class="form-control" id="MotivoNAceita">
+					</div>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th colspan="2">
+					III - Resolução da Reclamação
+					(A preencher pela diretoria ou farmacêutico responsável)
+				</th>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<label for="ReclaAceita">Causas apuradas da reclamação :</label><br>
+					<div class="form-group">
+						<input type="radio" class="form-control" name="ReclaAceita" id="ReclaAceita"> Aceita<br>
+						<input type="radio" class="form-control" name="ReclaAceita" id="ReclaAceita"> Não Aceita
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<label for="ReclaAceita">Correções :</label><br>
+					<div class="form-group">
+						<input type="radio" class="form-control" name="ReclaAceita" id="ReclaAceita"> Aceita<br>
+						<input type="radio" class="form-control" name="ReclaAceita" id="ReclaAceita"> Não Aceita
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="dataCorrec">Data prevista de correção :</label><br>
+					<div class="form-group">
+						<input type="date" class="form-control" id="dataCorrec">
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<label for="Respons">Responsável :</label><br><input type="text" class="form-control" id="Respons">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="dataConcl">Data de conclusão :</label><br>
+					<div class="form-group">
+						<input type="date" class="form-control" id="dataConcl">
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<label for="NomeConcl">Concluído por :</label><br><input type="text" class="form-control" id="NomeConcl">
+					</div>
+				</td>
+			</tr>
+		</table>
