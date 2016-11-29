@@ -17,16 +17,11 @@
 		<nav class="navbar navbar-inverse">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-		      <a class="navbar-brand" href="#">Reclame!</a>
+		      <a class="navbar-brand" href="atendimento.php">Reclame!</a>
 		    </div>
 		    <ul class="nav navbar-nav">
 		      <li><a href="index.php">Home</a></li>
-		      <li><a href="atendimento.php">Atendimento</a>
-		      <li class="active"><a href="relat.php">Relatório</a></li>
-		    </ul>
-		    <ul class="nav navbar-nav navbar-right">
-		      <li><a href="cadastro.php"><span class="glyphicon glyphicon-user"></span> Cadastrar</a></li>
-		      <li><a href="cadastro.php?log=true"><span class="glyphicon glyphicon-log-in"></span> Entrar</a></li>
+		      <li  class="active"><a href="relat.php">Relatório</a></li>
 		    </ul>
 		  </div>
 		</nav>

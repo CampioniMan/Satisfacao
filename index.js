@@ -78,7 +78,7 @@ function enviarCadastro()
 	if (estaVazio("NomeCliente") || estaSobrecarregado("NomeCliente") || estaVazio("SenhaCliente") || estaSobrecarregado("SenhaCliente") || estaVazio("DescRecla") || estaSobrecarregado("DescRecla")) // está em branco
 		return;
 
-	//$.ajax(localhost+"Usuario",{type:"POST", });
+	$.ajax(localhost+"Usuario",{type:"PUT"});
 }
 
 function loadGraficos()

@@ -21,16 +21,11 @@
 		<nav class="navbar navbar-inverse">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-		      <a class="navbar-brand" href="#">Reclame!</a>
+		      <a class="navbar-brand" href="atendimento.php">Reclame!</a>
 		    </div>
 		    <ul class="nav navbar-nav">
 		      <li><a href="index.php">Home</a></li>
-		      <li class="active"><a href="atendimento.php">Atendimento</a>
 		      <li><a href="relat.php">Relatório</a></li>
-		    </ul>
-		    <ul class="nav navbar-nav navbar-right">
-		      <li><a href="cadastro.php"><span class="glyphicon glyphicon-user"></span> Cadastrar</a></li>
-		      <li><a href="cadastro.php?log=true"><span class="glyphicon glyphicon-log-in"></span> Entrar</a></li>
 		    </ul>
 		  </div>
 		</nav>
@@ -68,7 +63,8 @@
 						    <option value="three">Avaria</option>
 						    <option value="four">Logística</option>
 						    <option value="five">Dúvida</option>
-						    <option value="six">Outros</option>
+						    <option value="six">Solicitação de serviço</option>
+						    <option value="seven">Outros</option>
 						</select><br>
 			            <div class="input-group">
 							<span id="GlyTipoOutros" class="input-group-addon" style="visibility: hidden;"><i class="glyphicon glyphicon-text-width"></i></span>
@@ -108,7 +104,7 @@
 	});
 
 	$('#TipoRecla').on('change', function() {
-		if (this.value == "six")
+		if (this.value == "seven")
 		{
 			$("span[id='GlyTipoOutros']").css('visibility', 'visible');
 			$("#TipoOutros").css('visibility', 'visible');
