@@ -17,7 +17,7 @@
 		<nav class="navbar navbar-inverse">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-		      <a class="navbar-brand" href="atendimento.php">Reclame!</a>
+		      <a class="navbar-brand" href="atendimento.php">Atendimento!</a>
 		    </div>
 		    <ul class="nav navbar-nav">
 		      <li><a href="index.php">Home</a></li>
@@ -25,13 +25,13 @@
 		    </ul>
 		  </div>
 		</nav>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" style="left: 50%; transform: translateX(-50%);">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 central">
 			<canvas id="GraPareto"></canvas>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" style="left: 50%; transform: translateX(-50%);">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 central">
 			<canvas id="GraPareto2"></canvas>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" style="left: 50%; transform: translateX(-50%);">
+		</div><br><br><br>
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 central">
 			<canvas id="GraPareto3"></canvas>
 		</div>
 	</body>

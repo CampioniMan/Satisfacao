@@ -34,6 +34,18 @@ function alterarRadio(id)
 		$("#"+id).attr('checked', true);
 }
 
+/**
+    Removendo o título na caixa de diálogo
+*/
+window.alert = function(string)
+{
+    var iframe = document.createElement("IFRAME");
+    iframe.setAttribute("src", 'data:text/plain,');
+    document.documentElement.appendChild(iframe);
+    window.frames[0].window.alert(string);
+    iframe.parentNode.removeChild(iframe);
+}
+
 
 /* Métodos com ajax */
 
@@ -52,13 +64,14 @@ function acessarTudo(tabela)
 
 function inserirNaTabela(tabela, dados)
 {
-	$.ajax("http://localhost:5000/"+tabela, {
+	$.ajax(localhost+tabela+"/", {
 		type:"POST",
+        data : dados,
 		success: function(trem, trem2, trem3){
-			return trem;
+			alert("Você está cadastrado!");
 		},
 		erro: function(trem, trem2, trem3){
-			return trem;
+			alert("Já existe alguém com esse nome ou email");
 		}
 	});
 }
@@ -73,33 +86,68 @@ function estaSobrecarregado(input, max)
 	return $("#input").val().length > max;
 }
 
-function enviarCadastro()
+/**
+    Retorna um vetor que contém os valores do parâmetro em porcentagem em relação ao total do parâmetro.
+*/
+function emPorcentagem(vetor)
 {
-	if (estaVazio("NomeCliente") || estaSobrecarregado("NomeCliente") || estaVazio("SenhaCliente") || estaSobrecarregado("SenhaCliente") || estaVazio("DescRecla") || estaSobrecarregado("DescRecla")) // está em branco
-		return;
+    var total = 0;
+    for (var i = 0; i < vetor.length; i++)
+        total += vetor[i];
 
-	$.ajax(localhost+"Usuario",{type:"PUT"});
+    var retorno = new Array(vetor.length);
+    for (var i = 0; i < vetor.length; i++)
+    {
+        retorno[i] = vetor[i]/total * 100;
+        if (i > 0)
+            retorno[i] += retorno[i-1];
+    }
+    retorno[retorno.length-1] = 100.00;
+    return retorno;
 }
 
-function loadGraficos()
+function maiorValorDe(vetor)
 {
-	var data = {
-        labels: ["Reclamação 1","Reclamação 2","Reclamação 3","Reclamação 4","Outros"],
+    var maior = Number.MIN_VALUE;
+    for(var i = 0; i < vetor.length; i++)
+        maior = Math.max(maior, vetor[i]);
+    return maior;
+}
+
+function enviarCadastro()
+{
+	if (estaVazio("NomeCliente") || estaSobrecarregado("NomeCliente") || estaVazio("SenhaCliente") || estaSobrecarregado("SenhaCliente") || estaVazio("EmailCliente") || estaSobrecarregado("EmailCliente")) // está em branco
+		return;
+
+	inserirNaTabela("Usuario", {"Nome":$("NomeCliente").val(), "Email": $("EmailCliente").val()});
+}
+
+function enviarAtendimento()
+{
+
+}
+
+function desenharGrafico(dados, labelsEixoX, labelsEixoY, cores, contexto)
+{
+    var porcentagem = emPorcentagem(dados);
+    var maximo = maiorValorDe(dados) + 4;
+    var data = {
+        labels: labelsEixoX,
         datasets: [{
             type: "line",
-            label: "Acumulado",
-            borderColor: "#BA1E14",
-            backgroundColor: "#BA1E14",
+            label: labelsEixoY[0],
+            borderColor: cores[0],
+            backgroundColor: cores[0],
             pointBorderWidth: 5,
             fill: false,
-            data: [34.00,57.00,76.00,89.00,100.00],
+            data: porcentagem,
             yAxisID: 'y-axis-2'
         },{
             type: "bar",
-            label: "Reclamação",
-            borderColor: "#56B513",
-            backgroundColor: "#56B513",
-            data: [16,11,9,6,5],
+            label: labelsEixoY[1],
+            borderColor: cores[1],
+            backgroundColor: cores[1],
+            data: dados,
             yAxisID: 'y-axis-1'
         }]
     };
@@ -117,11 +165,11 @@ function loadGraficos()
                 stacked: false,
                 ticks: {
                     suggestedMin: 0,
-                    max: 20
+                    max: maximo
                 },
                 scaleLabel: {
                     display: true,
-                    labelString: "Nº de Reclamações"
+                    labelString: labelsEixoY[2]
                 }
             },{
                 type: "linear",
@@ -129,54 +177,40 @@ function loadGraficos()
                 id: "y-axis-2",
                 ticks: {
                     suggestedMin: 0,
+                    max : 100,
                     callback: function(value) {
                         return value + "%";
                     }
                 },
                 scaleLabel: {
                     display: true,
-                    labelString: "Porcentagem"
+                    labelString: labelsEixoY[3]
                 }
             }]
         }
     };
-	var ctx = document.getElementById("GraPareto").getContext("2d");
-	var ctx2 = document.getElementById("GraPareto2").getContext("2d");
-	var ctx3 = document.getElementById("GraPareto3").getContext("2d");
-
-    new Chart(ctx, {
+    new Chart(contexto, {
         type: 'bar',
         data: data,
         options: options
     });
+}
 
-    new Chart(ctx2, {
-        type: 'bar',
-        data: data,
-        options: options
-    });
+function loadGraficos()
+{
+    var dados = [16,11,9,6,5];
+    var porcentagem = emPorcentagem(dados);
+    desenharGrafico(dados, ["Atendimento","Prazo de preparação","Avaria","Logística","Outros"],
+        ["Acumulado", "Reclamação", "Nº de reclamações", "Porcentagem"],
+        ["#BA1E14", "#009900"], document.getElementById("GraPareto").getContext("2d"));
 
-    new Chart(ctx3, {
-        type: 'bar',
-        data: data,
-        options: options
-    });
+    dados = [5,7,1,5,3];
+    desenharGrafico(dados, ["Mês atual","1 mês atrás","2 meses atrás","3 meses atrás","4 meses atrás"],
+        ["Acumulado", "Dúvidas", "Nº de dúvidas", "Porcentagem"],
+        ["#ff9966", "#00ff99"], document.getElementById("GraPareto2").getContext("2d"));
 
-/*
-var ctx = document.getElementById('GraBola').getContext('2d');
-var myChart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-    datasets: [{
-      label: 'apples',
-      data: [12, 19, 3, 17, 6, 3, 7],
-      backgroundColor: "rgba(153,255,51,0.4)"
-    }, {
-      label: 'oranges',
-      data: [2, 29, 5, 5, 2, 3, 10],
-      backgroundColor: "rgba(255,153,0,0.4)"
-    }]
-  }
-});*/
+    dados = [14,21,4,15,32];
+    desenharGrafico(dados, ["Mês atual","1 mês atrás","2 meses atrás","3 meses atrás","4 meses atrás"],
+        ["Acumulado", "Solicitações", "Nº de solicitações", "Porcentagem"],
+        ["#cc00cc", "#9999ff"], document.getElementById("GraPareto3").getContext("2d"));
 }
