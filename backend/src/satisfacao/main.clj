@@ -7,7 +7,9 @@
    [clojure.walk :refer [keywordize-keys]]
    [ring.util.codec :refer [form-decode]]
    [cheshire.core :refer :all])
-  (:gen-class)) ; httpkit is a server
+  (:gen-class)
+  (:import
+   [java.net BindException]))
 
 (defonce server (atom nil))
 
@@ -58,28 +60,44 @@
   [s]
   (form-decode s))
 
+(def cors-headers 
+  { "Access-Control-Allow-Origin" "*"
+   "Access-Control-Allow-Headers" "Content-Type"
+   "Access-Control-Allow-Methods" "GET,POST,OPTIONS" })
+(defn allow-origin
+  [handler]
+  (fn [request]
+    (let [response (handler request)]
+      (update-in response [:headers]
+                 merge cors-headers ))))
+
 (defroutes app-routes
   (GET "/" [] "API SATISFACAO")
   
   (GET "/:tabela/:args" [tabela args]  
-       (handle-get tabela (map-url-params args)))
+    (handle-get tabela (map-url-params args)))
   
   (GET "/:tabela" [tabela]
-       (handle-get tabela {}))
+    (handle-get tabela {}))
   
   (PUT "/:tabela/:args" [tabela args]
-       (handle-put tabela (map-url-params args)))
+    (handle-put tabela (map-url-params args)))
   
   (DELETE "/:tabela/:args" [tabela args]
-          (handle-delete tabela (map-url-params args))))
+    (handle-delete tabela (map-url-params args))))
 
 
 (def app
-  (-> app-routes))
+  (-> app-routes
+      allow-origin))
 
 
-(defn -main []
-  (reset! server (srvr/run-server app {:port 5000})))
+(defn -main [& [port :as args]]
+  (let [port (if (empty? args) 4242 port)] 
+    (try
+      (do (reset! server (srvr/run-server app {:port port}))
+          (println (str "Servidor iniciado na porta " port)))
+      (catch BindException e (println "Porta já está em uso!")))))
 
 (defn stop-server! []
   (when-not (nil? @server)

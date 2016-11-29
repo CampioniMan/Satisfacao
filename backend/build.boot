@@ -18,17 +18,20 @@
   []
   (println "Dev running...")
   (set-env!
-    :init-ns 'user
-    :dependencies (conj (get-env :dependencies) '[org.clojure/tools.namespace "0.2.10"]
-                                                '[org.clojure/test.check "0.9.0"])
-    ;; :source-paths #(into % ["dev"])
-    ) 
+   :source-paths #(conj % "user")
+   :dependencies #(conj %
+                        '[org.clojure/tools.namespace "0.2.10"]
+                        '[org.clojure/test.check "0.9.0"])   
+   ;; :source-paths #(into % ["dev"])
+   ) 
   identity)
 
 (deftask build
   "This is used for creating an optimized uberjar "
   []
   (comp
+   (pom :project 'satis-srv
+        :version "0.1.0")
    (aot :all true)
    (uber :exclude #{#"(?i)^META-INF/[^/]*\.(MF|SF|RSA|DSA)$"
                     #"(?i)^META-INF\\[^/]*\.(MF|SF|RSA|DSA)$"
