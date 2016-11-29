@@ -18,12 +18,14 @@
   []
   (println "Dev running...")
   (set-env!
-   :source-paths #(conj % "user")
+   :source-paths #(conj % "dev")
    :dependencies #(conj %
                         '[org.clojure/tools.namespace "0.2.10"]
                         '[org.clojure/test.check "0.9.0"])   
    ;; :source-paths #(into % ["dev"])
-   ) 
+   )
+  (use 'user.core)
+  (start)
   identity)
 
 (deftask build
