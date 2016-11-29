@@ -36,4 +36,4 @@
                         {:insert #{"Nome" "Email"}
                          :delete :all
                          :select :all
-                         :update #{"Nome"}}})
+                         :update #{"Nome" "Email"}}})

@@ -76,17 +76,14 @@
   
   (GET "/:tabela" [tabela & args]  
     (if args
-      (handle-get tabela (map-url-params
-                          (stringify-keys args)))
+      (handle-get tabela (stringify-keys args))
       (handle-get tabela {})))
   
   (PUT "/:tabela" [tabela & args]
-    (handle-put tabela (map-url-params
-                        (stringify-keys args))))
+    (handle-put tabela (stringify-keys args)))
   
   (DELETE "/:tabela" [tabela & args]
-    (handle-delete tabela (map-url-params
-                           (stringify-keys args)))))
+    (handle-delete tabela (stringify-keys args))))
 
 
 (def app
