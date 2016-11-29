@@ -20,7 +20,7 @@
               #{"ID" "Label"}
 
               "Usuario"
-              #{"Nome" "ID"}})
+              #{"Nome" "ID" "Email"}})
 
 (def action-table-keys {"Atendimento"
                         {:insert #{"Tipo" "IDUsuario" "Mensagem" "Data"}
@@ -33,7 +33,7 @@
                          :select :all
                          :update #{"Label"}}
                         "Usuario"
-                        {:insert #{"Nome"}
+                        {:insert #{"Nome" "Email"}
                          :delete :all
                          :select :all
                          :update #{"Nome"}}})

@@ -24,8 +24,7 @@
                         '[org.clojure/test.check "0.9.0"])   
    ;; :source-paths #(into % ["dev"])
    )
-  (use 'user.core)
-  (start)
+  (use 'user.core) 
   identity)
 
 (deftask build
