@@ -61,7 +61,7 @@
   (form-decode s))
 
 (def cors-headers 
-  { "Access-Control-Allow-Origin" "*"
+  {"Access-Control-Allow-Origin" "*"
    "Access-Control-Allow-Headers" "Content-Type"
    "Access-Control-Allow-Methods" "GET,POST,OPTIONS" })
 (defn allow-origin
@@ -75,15 +75,15 @@
   (GET "/" [] "API SATISFACAO")
   
   (GET "/:tabela" [tabela & args]  
-    (if args
-      (handle-get tabela (stringify-keys args))
-      (handle-get tabela {})))
+       (if args
+         (handle-get tabela (stringify-keys args))
+         (handle-get tabela {})))
   
   (PUT "/:tabela" [tabela & args]
-    (handle-put tabela (stringify-keys args)))
+       (handle-put tabela (stringify-keys args)))
   
   (DELETE "/:tabela" [tabela & args]
-    (handle-delete tabela (stringify-keys args))))
+          (handle-delete tabela (stringify-keys args))))
 
 
 (def app
