@@ -1,7 +1,7 @@
 if (typeof jQuery == 'undefined')
 	console.log("jQuery não definido");
 
-const localhost = "http://localhost:5000/";
+const localhost = "http://localhost:4242/";
 
 function atualizarData(){
 	$("#dataRecla").attr('value', dataAtual());
@@ -51,27 +51,13 @@ window.alert = function(string)
 
 function acessarTudo(tabela)
 {
-	$.ajax("http://localhost:5000/"+tabela, {
-		type:"GET",
-		success: function(trem, trem2, trem3){
-			return trem;
+	$.ajax(localhost+tabela, {
+		method:"GET",
+		success: function(informacao, informacao2, informacao3){
+			return informacao;
 		},
-		erro: function(trem, trem2, trem3){
-			return trem;
-		}
-	});
-}
-
-function inserirNaTabela(tabela, dados)
-{
-	$.ajax(localhost+tabela+"/", {
-		type:"POST",
-        data : dados,
-		success: function(trem, trem2, trem3){
-			alert("Você está cadastrado!");
-		},
-		erro: function(trem, trem2, trem3){
-			alert("Já existe alguém com esse nome ou email");
+		erro: function(informacao, informacao2, informacao3){
+			return informacao;
 		}
 	});
 }
@@ -132,12 +118,25 @@ function inputInvalido(input)
     return (estaVazio(input) && estaSobrecarregado(input));
 }
 
+function inserirNaTabela(tabela, dados)
+{
+    $.ajax(localhost+tabela, 
+    {
+        method:"PUT",
+        data : dados,
+        success: function(informacao, informacao2, informacao3){
+            alert("Você está cadastrado!");
+        },
+        error: function(informacao, informacao2, informacao3){
+            alert("Já existe alguém com esse nome ou email");
+        }
+    });
+}
+
 function enviarAtendimento()
 {
-    alert("1");
     if (inputInvalido("NomeCliente") || inputInvalido("EmailCliente") || ($("TipoRecla").val() == "7" && inputInvalido("TipoOutros")) || inputInvalido("TipoRegis") || inputInvalido("DescRecla")) // está em branco
         return;
-    alert("2");
     var IDUsuario;
     if ((IDUsuario = existeNaTabela("Usuario", {"Nome": $("NomeCliente").val(), "Email": $("EmailCliente").val()})) != false)
         inserirNaTabela("Atendimento", {
@@ -150,21 +149,21 @@ function enviarAtendimento()
 
 function enviarCadastro()
 {
-    if (inputInvalido("NomeCliente") || inputInvalido("DescRecla")) // está em branco
+    if (inputInvalido("NomeCliente") || inputInvalido("EmailCliente")) // está em branco
         return;
 
-    inserirNaTabela("Usuario", {"Nome": $("NomeCliente").val(), "Email": $("NomeCliente").val()});
+    inserirNaTabela("Usuario", {"Nome": $("NomeCliente").val(), "Email": $("EmailCliente").val()});
 }
 
 function existeNaTabela(tabela, dados)
 {
-    $.ajax(localhost+tabela+"/", {
+    $.ajax(localhost+tabela, {
         method:"GET", 
         data:dados, 
-        success: function(trem, trem2, trem3){
-            return JSON.parse(trem)["ID"];
+        success: function(informacao, informacao2, informacao3){
+            return JSON.parse(informacao)["ID"];
         },
-        erro: function(trem, trem2, trem3){
+        erro: function(informacao, informacao2, informacao3){
             return false;
         }
         });
@@ -239,8 +238,27 @@ function desenharGrafico(dados, labelsEixoX, labelsEixoY, cores, contexto)
     });
 }
 
+function getQtosTabela(tabela, dados)
+{
+    $.ajax(localhost+tabela, {type:"GET", data:dados, 
+        success: function(informacao, informacao2, informacao3){
+            return JSON.parse(informacao).length;
+        },
+        erro: function(informacao, informacao2, informacao3){
+            return 0;
+        }
+        });
+}
+
 function loadGraficos()
 {
+    var DadoPri = getQtosTabela("Atendimento", {"Tipo":1});
+    var DadoSeg = getQtosTabela("Atendimento", {"Tipo":2});
+    var DadoTer = getQtosTabela("Atendimento", {"Tipo":3});
+    var DadoQua = getQtosTabela("Atendimento", {"Tipo":4});
+    var DadoQui = getQtosTabela("Atendimento", {"Tipo":5});
+
+    var dados = [DadoPri,DadoSeg,DadoTer,DadoQua,DadoQui];
     var dados = [16,11,9,6,5];
     var porcentagem = emPorcentagem(dados);
     desenharGrafico(dados, ["Atendimento","Prazo de preparação","Avaria","Logística","Outros"],

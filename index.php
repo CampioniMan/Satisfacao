@@ -49,11 +49,6 @@
 							<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
 							<input type="text" class="form-control" id="EmailCliente">
 						</div>
-						<label for="SenhaCliente">Senha :</label>
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-							<input type="password" class="form-control" id="SenhaCliente">
-						</div>
 					</td>
 				</tr>
 				<tr>

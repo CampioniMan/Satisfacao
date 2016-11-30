@@ -71,15 +71,6 @@
 							<input type="text" class="form-control" id="TipoOutros" maxlength="35" style="visibility: hidden;">
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-						<label for="TipoRegis">Registrada via :</label><br>
-						<select id="TipoRegis" class="form-control">
-						    <option value="one">Telefone</option>
-						    <option value="two">Email</option>
-						    <option value="three">Presencial</option>
-						    <option value="four">Escrito</option>
-						</select>
-					</div>
 				</td>
 			</tr>
 			<tr>
