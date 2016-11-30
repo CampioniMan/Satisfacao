@@ -70,21 +70,22 @@
 (defroutes app-routes
   (GET "/" [] "API SATISFACAO")
   
-  (GET "/:tabela" [tabela & args]  
-       (if args
-         (handle-get tabela (stringify-keys args))
-         (handle-get tabela {})))
+  (GET "/GET/:tabela" [tabela & args]  
+    (if args
+      (handle-get tabela (stringify-keys args))
+      (handle-get tabela {})))
   
-  (PUT "/:tabela" [tabela & args]
-       (handle-put tabela (stringify-keys args)))
+  (GET "/PUT/:tabela" [tabela & args]
+    (handle-put tabela (stringify-keys args)))
   
-  (DELETE "/:tabela" [tabela & args]
-          (handle-delete tabela (stringify-keys args))))
+  (GET "/DELETE/:tabela" [tabela & args]
+    (handle-delete tabela (stringify-keys args))))
 
 
 (def app
-  (-> app-routes
-      allow-origin))
+  (->
+   app-routes
+   allow-origin))
 
 
 (defn -main [& [port :as args]]
