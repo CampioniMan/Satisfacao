@@ -9,8 +9,8 @@ function atualizarData(){
 
 function dataAtual()
 {
-	var hoje = new Date();
-	var dd = hoje.getDate();
+	var hoje = new dataAtual();
+	var dd = hoje.getdataAtual();
 	var mm = hoje.getMonth()+1; //Janeiro é 0!
 	var yyyy = hoje.getFullYear();
 
@@ -51,8 +51,8 @@ window.alert = function(string)
 
 function acessarTudo(tabela)
 {
-	$.ajax(localhost+tabela, {
-		method:"GET",
+	$.ajax(localhost+"GET/"+tabela, {
+		type:"GET",
 		success: function(informacao, informacao2, informacao3){
 			return informacao;
 		},
@@ -120,15 +120,15 @@ function inputInvalido(input)
 
 function inserirNaTabela(tabela, dados)
 {
-    $.ajax(localhost+tabela, 
+    $.ajax(localhost+"PUT/"+tabela, 
     {
-        method:"PUT",
+        type:"GET",
         data : dados,
         success: function(informacao, informacao2, informacao3){
             alert("Você está cadastrado!");
         },
         error: function(informacao, informacao2, informacao3){
-            alert("Já existe alguém com esse nome ou email");
+            alert("Ocorreu um erro de conexão com o servidor. Tente novamente mais tarde.");
         }
     });
 }
@@ -138,12 +138,12 @@ function enviarAtendimento()
     if (inputInvalido("NomeCliente") || inputInvalido("EmailCliente") || ($("TipoRecla").val() == "7" && inputInvalido("TipoOutros")) || inputInvalido("TipoRegis") || inputInvalido("DescRecla")) // está em branco
         return;
     var IDUsuario;
-    if ((IDUsuario = existeNaTabela("Usuario", {"Nome": $("NomeCliente").val(), "Email": $("EmailCliente").val()})) != false)
+    if ((IDUsuario = existeNaTabela("Usuario", {"Nome": $("NomeCliente").val())) != false)
         inserirNaTabela("Atendimento", {
-            "Tipo": $("TipoRecla").val(), 
-            "IDUsuario":IDUsuario, 
-            "Mensagem": $("DescRecla"), 
-            "Data":Date()
+            "Tipo": $("TipoRecla").val(),
+            "IDUsuario":IDUsuario,
+            "Mensagem": $("DescRecla"),
+            "Data":dataAtual()
         });
 }
 
@@ -157,11 +157,15 @@ function enviarCadastro()
 
 function existeNaTabela(tabela, dados)
 {
-    $.ajax(localhost+tabela, {
-        method:"GET", 
+    $.ajax(localhost+"GET/"+tabela, {
+        type:"GET", 
         data:dados, 
         success: function(informacao, informacao2, informacao3){
-            return JSON.parse(informacao)["ID"];
+            var vetor = JSON.parse(informacao);
+            for (var i = 0; i < vetor.length; i++)
+                if (JSON.parse(informacao)[i]["Nome"] == dados["Nome"])
+                    return true;
+            return false;
         },
         erro: function(informacao, informacao2, informacao3){
             return false;
@@ -240,7 +244,7 @@ function desenharGrafico(dados, labelsEixoX, labelsEixoY, cores, contexto)
 
 function getQtosTabela(tabela, dados)
 {
-    $.ajax(localhost+tabela, {type:"GET", data:dados, 
+    $.ajax(localhost+"GET/"+tabela, {type:"GET", data:dados, 
         success: function(informacao, informacao2, informacao3){
             return JSON.parse(informacao).length;
         },
