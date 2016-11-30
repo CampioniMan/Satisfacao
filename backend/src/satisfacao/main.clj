@@ -56,10 +56,6 @@
       "[]")))
 
 
-(defn map-url-params
-  [s]
-  (form-decode s))
-
 (def cors-headers 
   {"Access-Control-Allow-Origin" "*"
    "Access-Control-Allow-Headers" "Content-Type"
