@@ -46,10 +46,10 @@
 						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 						<input type="text" class="form-control" id="NomeCliente">
 					</div>
-					<label for="NumCliente">Senha :</label>
+					<label for="NumCliente">Email :</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-						<input type="password" class="form-control" id="SenhaCliente">
+						<input type="email" class="form-control" id="EmailCliente">
 					</div>
 				</td>
 			</tr>
@@ -92,7 +92,7 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="button" value="Enviar reclamação" onclick="enviarCadastro();">
+					<input type="button" value="Enviar" onclick="enviarAtendimento();">
 				</td>
 			</tr>
 		</table>

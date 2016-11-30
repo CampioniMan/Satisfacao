@@ -78,12 +78,12 @@ function inserirNaTabela(tabela, dados)
 
 function estaVazio(input)
 {
-	return $("#input").val().length == 0;
+	return $("#"+input).val().length == 0;
 }
 
 function estaSobrecarregado(input, max)
 {
-	return $("#input").val().length > max;
+	return $("#"+input).val().length > max;
 }
 
 /**
@@ -125,6 +125,49 @@ function enviarCadastro()
 function enviarAtendimento()
 {
 
+}
+
+function inputInvalido(input)
+{
+    return (estaVazio(input) && estaSobrecarregado(input));
+}
+
+function enviarAtendimento()
+{
+    alert("1");
+    if (inputInvalido("NomeCliente") || inputInvalido("EmailCliente") || ($("TipoRecla").val() == "7" && inputInvalido("TipoOutros")) || inputInvalido("TipoRegis") || inputInvalido("DescRecla")) // está em branco
+        return;
+    alert("2");
+    var IDUsuario;
+    if ((IDUsuario = existeNaTabela("Usuario", {"Nome": $("NomeCliente").val(), "Email": $("EmailCliente").val()})) != false)
+        inserirNaTabela("Atendimento", {
+            "Tipo": $("TipoRecla").val(), 
+            "IDUsuario":IDUsuario, 
+            "Mensagem": $("DescRecla"), 
+            "Data":Date()
+        });
+}
+
+function enviarCadastro()
+{
+    if (inputInvalido("NomeCliente") || inputInvalido("DescRecla")) // está em branco
+        return;
+
+    inserirNaTabela("Usuario", {"Nome": $("NomeCliente").val(), "Email": $("NomeCliente").val()});
+}
+
+function existeNaTabela(tabela, dados)
+{
+    $.ajax(localhost+tabela+"/", {
+        method:"GET", 
+        data:dados, 
+        success: function(trem, trem2, trem3){
+            return JSON.parse(trem)["ID"];
+        },
+        erro: function(trem, trem2, trem3){
+            return false;
+        }
+        });
 }
 
 function desenharGrafico(dados, labelsEixoX, labelsEixoY, cores, contexto)
