@@ -1,8 +1,14 @@
 (ns satisfacao.main
   (:require
-   [satisfacao.core :as core]
+   [satisfacao.core :as core] 
    [compojure.core :refer :all]
-   [org.httpkit.server :as srvr] 
+   [compojure.handler :as handler]
+   [compojure.route :as route]
+   
+   [ring.adapter.jetty :as jetty]
+   [ring.middleware.params :as params]
+   [ring.util.response :as response]
+   
    [clj-http.client :as client]
    [clojure.walk :refer [keywordize-keys stringify-keys]]
    [ring.util.codec :refer [form-decode]] 
@@ -10,8 +16,6 @@
   (:gen-class)
   (:import
    [java.net BindException]))
-
-(defonce server (atom nil))
 
 (defn gen-where-vector
   [map]
@@ -67,37 +71,48 @@
       (update-in response [:headers]
                  merge cors-headers ))))
 
-(defroutes app-routes
-  (GET "/" [] "API SATISFACAO")
-  
-  (GET "/GET/:tabela" [tabela & args]  
-    (if args
-      (handle-get tabela (stringify-keys args))
-      (handle-get tabela {})))
-  
-  (GET "/PUT/:tabela" [tabela & args]
-    (handle-put tabela (stringify-keys args)))
-  
-  (GET "/DELETE/:tabela" [tabela & args]
-    (handle-delete tabela (stringify-keys args))))
+(defroutes api-routes 
+  (context "/api" []
+    (GET "/" [] "API SATISFACAO")
+    
+    (GET "/:tabela" [tabela & args]  
+      (if args
+        (handle-get tabela (stringify-keys args))
+        (handle-get tabela {})))
+    
+    (PUT "/:tabela" [tabela & args]
+      (handle-put tabela (stringify-keys args)))
+    
+    (DELETE "/:tabela" [tabela & args]
+      (handle-delete tabela (stringify-keys args)))))
 
+(defroutes site-routes
+  (context "/" []
+    (GET "/:pagina" [pagina] 
+      (response/resource-response
+       (str (.toLowerCase pagina) ".html")
+       {:root "public/"})))
+
+  (route/resources "/")
+  (route/not-found "<em>Not found</em>"))
 
 (def app
   (->
-   app-routes
-   allow-origin))
+   (routes api-routes site-routes)
+   params/wrap-params))
 
+(defonce server (atom nil))
 
 (defn -main [& [port :as args]]
-  (let [port (if (empty? args) 4242 port)] 
+  (let [port (if (empty? args) 4242 (int port))] 
     (try
-      (do (reset! server (srvr/run-server app {:port port}))
+      (do (reset! server (jetty/run-jetty app {:port port :join? false}))
           (println (str "Servidor iniciado na porta " port)))
       (catch BindException e (println "Porta já está em uso!")))))
 
 (defn stop-server! []
   (when-not (nil? @server)
-    (@server :timeout 100)
+    (.stop @server)
     (reset! server nil)))
 
 (defn restart-server! []
