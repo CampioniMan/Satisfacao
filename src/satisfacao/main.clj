@@ -88,6 +88,8 @@
 
 (defroutes site-routes
   (context "/" []
+    (GET "/" []
+      (response/redirect "Home"))
     (GET "/:pagina" [pagina] 
       (response/resource-response
        (str (.toLowerCase pagina) ".html")
@@ -104,7 +106,7 @@
 (defonce server (atom nil))
 
 (defn -main [& [port :as args]]
-  (let [port (if (empty? args) 4242 (int port))] 
+  (let [port (if (empty? args) 4242 (Integer/parseInt port))] 
     (try
       (do (reset! server (jetty/run-jetty app {:port port :join? false}))
           (println (str "Servidor iniciado na porta " port)))
